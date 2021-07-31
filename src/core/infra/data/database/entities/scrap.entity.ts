@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
@@ -32,6 +33,7 @@ export class ScrapEntity {
   updatedAt: Date;
 
   @ManyToOne(() => UserEntity, user => user.scraps)
+  @JoinColumn({ name: "user_uid", referencedColumnName: "uid" })
   user: UserEntity;
 
   @BeforeInsert()
