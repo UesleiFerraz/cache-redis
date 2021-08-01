@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -13,7 +14,7 @@ import bcrypt from "bcrypt";
 import { ScrapEntity } from "./scrap.entity";
 
 @Entity()
-export class UserEntity {
+export class UserEntity extends BaseEntity {
   @PrimaryColumn()
   uid: string;
 

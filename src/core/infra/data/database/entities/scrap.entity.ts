@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -13,7 +14,7 @@ import { v4 as uuid } from "uuid";
 import { UserEntity } from "./user.entity";
 
 @Entity({ name: "scraps" })
-export class ScrapEntity {
+export class ScrapEntity extends BaseEntity {
   @PrimaryColumn()
   uid: string;
 
