@@ -1,4 +1,4 @@
-import { Scrap } from "./scrap.model";
+import { Scrap } from "../../../features/scraps/domain";
 
 export interface User {
   uid: string;

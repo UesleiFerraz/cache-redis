@@ -1,4 +1,4 @@
-import { User } from "./user.model";
+import { User } from "../../../../core/domain/";
 
 export interface Scrap {
   uid: string;
