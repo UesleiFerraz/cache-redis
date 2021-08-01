@@ -42,9 +42,12 @@ export class ScrapRepository {
   }
 
   async update(uid: string, params: Scrap): Promise<Scrap | null> {
-    const { title, description } = params;
+    const { title, description, userUid } = params;
 
-    const scrap = await ScrapEntity.findOne(uid, { relations: ["users"] });
+    const scrap = await ScrapEntity.findOne(uid, {
+      where: { userUid },
+      relations: ["users"],
+    });
 
     if (!scrap) {
       return null;
