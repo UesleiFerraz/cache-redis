@@ -1,5 +1,6 @@
 import cors from "cors";
 import express, { Request, Response, Router } from "express";
+import ScrapRoutes from "../../features/scraps/presentation/routes/routes";
 
 export default class App {
   readonly #express: express.Application;
@@ -35,6 +36,8 @@ export default class App {
     router.get("/", (_: Request, response: Response) => {
       return response.json({ message: "Welcome to the API!" });
     });
+
+    new ScrapRoutes().init(router);
   }
 
   public start(port: number) {
