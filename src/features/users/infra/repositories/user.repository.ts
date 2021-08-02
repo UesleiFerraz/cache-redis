@@ -26,8 +26,8 @@ export class UserRepository {
     }));
   }
 
-  async getOne(uid: string): Promise<Omit<User, "password"> | null> {
-    const user = await UserEntity.findOne(uid, { relations: ["scraps"] });
+  async getOne(username: string): Promise<User | null> {
+    const user = await UserEntity.findOne(username, { relations: ["scraps"] });
 
     if (!user) {
       return null;
@@ -36,6 +36,7 @@ export class UserRepository {
     return {
       uid: user.uid,
       username: user.username,
+      password: user.password,
       scraps: user.scraps,
     };
   }
