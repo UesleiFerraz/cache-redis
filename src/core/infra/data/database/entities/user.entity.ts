@@ -37,10 +37,17 @@ export class UserEntity extends BaseEntity {
   private beforeInsert = async () => {
     this.uid = uuid();
     this.password = await bcrypt.hash(this.password, 10);
+    this.createdAt = new Date(formatDateToBrasilTime());
+    this.updatedAt = new Date(formatDateToBrasilTime());
   };
 
   @BeforeUpdate()
   private beforeUpdate = async () => {
     this.password = await bcrypt.hash(this.password, 10);
+    this.updatedAt = new Date(formatDateToBrasilTime());
   };
+}
+
+function formatDateToBrasilTime() {
+  return new Date().setHours(new Date().getHours() - 3);
 }
