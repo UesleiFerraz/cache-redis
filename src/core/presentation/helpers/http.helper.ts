@@ -1,4 +1,10 @@
-import { DataNotFoundError, ServerError } from "../errors";
+import {
+  ConflictError,
+  DataNotFoundError,
+  ForbiddenError,
+  ServerError,
+  UnauthorizedError,
+} from "../errors";
 import { HttpResponse } from "../models";
 
 export const ok = (body: any): HttpResponse => ({
@@ -19,4 +25,19 @@ export const notFound = (): HttpResponse => ({
 export const serverError = (): HttpResponse => ({
   statusCode: 500,
   body: new ServerError(),
+});
+
+export const conflict = (error: string): HttpResponse => ({
+  statusCode: 409,
+  body: new ConflictError(error),
+});
+
+export const unauthorized = (): HttpResponse => ({
+  statusCode: 401,
+  body: new UnauthorizedError(),
+});
+
+export const forbidden = (): HttpResponse => ({
+  statusCode: 403,
+  body: new ForbiddenError(),
 });
