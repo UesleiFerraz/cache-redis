@@ -1,6 +1,6 @@
 export class ForbiddenError extends Error {
   constructor() {
-    super("username or password invalid");
+    super("password invalid");
     this.name = "ForbiddenError";
   }
 }
