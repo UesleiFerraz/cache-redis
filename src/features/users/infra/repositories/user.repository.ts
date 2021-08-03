@@ -27,7 +27,12 @@ export class UserRepository {
   }
 
   async getOne(username: string): Promise<User | null> {
-    const user = await UserEntity.findOne(username, { relations: ["scraps"] });
+    const user = await UserEntity.findOne({
+      where: {
+        username,
+      },
+      relations: ["scraps"],
+    });
 
     if (!user) {
       return null;

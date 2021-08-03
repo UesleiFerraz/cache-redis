@@ -38,11 +38,13 @@ export class CreateTableScraps1627690734045 implements MigrationInterface {
             name: "created_at",
             type: "timestamp",
             isNullable: false,
+            default: "NOW()",
           },
           {
             name: "updated_at",
             type: "timestamp",
             isNullable: false,
+            default: "NOW()",
           },
         ],
         foreignKeys: [

@@ -13,7 +13,7 @@ import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
 import { ScrapEntity } from "./scrap.entity";
 
-@Entity()
+@Entity({ name: "users" })
 export class UserEntity extends BaseEntity {
   @PrimaryColumn()
   uid: string;

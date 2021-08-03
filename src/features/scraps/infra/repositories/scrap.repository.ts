@@ -16,7 +16,7 @@ export class ScrapRepository {
 
   async getAll(): Promise<Scrap[]> {
     const scraps = await ScrapEntity.find({
-      relations: ["users"],
+      relations: ["user"],
       order: {
         createdAt: "ASC",
       },

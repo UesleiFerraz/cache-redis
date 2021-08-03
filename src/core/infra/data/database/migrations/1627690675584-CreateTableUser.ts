@@ -28,11 +28,13 @@ export class CreateTableUser1627690675584 implements MigrationInterface {
             name: "created_at",
             type: "timestamp",
             isNullable: false,
+            default: "NOW()",
           },
           {
             name: "updated_at",
             type: "timestamp",
             isNullable: false,
+            default: "NOW()",
           },
         ],
       }),

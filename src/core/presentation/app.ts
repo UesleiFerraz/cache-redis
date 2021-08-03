@@ -32,7 +32,9 @@ export default class App {
       return response.redirect("/api");
     });
 
-    router.get("/api", (_: Request, response: Response) => {
+    this.#express.use("/api", router);
+
+    router.get("/", (_: Request, response: Response) => {
       return response.json({ message: "Welcome to the API!" });
     });
 
