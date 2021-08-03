@@ -1,6 +1,6 @@
 export class UnauthorizedError extends Error {
   constructor() {
-    super("you do not have permission to do it");
+    super("you must authenticate first");
     this.name = "UnauthorizedError";
   }
 }
