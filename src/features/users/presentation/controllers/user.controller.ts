@@ -2,6 +2,7 @@ import {
   HttpRequest,
   HttpResponse,
   MVCController,
+  notFound,
   ok,
   serverError,
 } from "../../../../core/presentation";
@@ -45,12 +46,7 @@ export class UserController implements MVCController {
       const user = await this.#repository.getOne(username);
 
       if (!user) {
-        return {
-          statusCode: 404,
-          body: {
-            message: "User not found",
-          },
-        };
+        return notFound();
       }
 
       const secret = process.env.SECRET || "123";
