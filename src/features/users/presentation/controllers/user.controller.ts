@@ -1,4 +1,6 @@
 import {
+  conflict,
+  forbidden,
   HttpRequest,
   HttpResponse,
   MVCController,
@@ -22,12 +24,7 @@ export class UserController implements MVCController {
       const user = await this.#repository.getOne(request.body.username);
 
       if (user) {
-        return {
-          statusCode: 409,
-          body: {
-            message: "Username already taken",
-          },
-        };
+        return conflict("Username");
       }
 
       const newUser = await this.#repository.create(request.body);
@@ -55,12 +52,7 @@ export class UserController implements MVCController {
         const isValidPassword = await bcrypt.compare(password, user.password);
 
         if (!isValidPassword) {
-          return {
-            statusCode: 401,
-            body: {
-              message: "Invalid password",
-            },
-          };
+          return forbidden();
         }
 
         token = jwt.sign({ id: user.uid }, secret, { expiresIn: "1h" });
@@ -69,7 +61,7 @@ export class UserController implements MVCController {
       return ok(token);
     } catch (error) {
       console.log(error);
-      return serverError();
+      return forbidden();
     }
   }
 
