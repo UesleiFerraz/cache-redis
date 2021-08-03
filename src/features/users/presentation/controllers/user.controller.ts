@@ -1,13 +1,30 @@
-import { HttpRequest, HttpResponse, ok } from "../../../../core/presentation";
+import {
+  HttpRequest,
+  HttpResponse,
+  MVCController,
+  ok,
+} from "../../../../core/presentation";
 import { UserRepository } from "../../infra";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export class UserController {
+export class UserController implements MVCController {
   readonly #repository: UserRepository;
 
   constructor(repository: UserRepository) {
     this.#repository = repository;
+  }
+  index(request: HttpRequest): Promise<HttpResponse> {
+    throw new Error("Method not implemented.");
+  }
+  show(request: HttpRequest): Promise<HttpResponse> {
+    throw new Error("Method not implemented.");
+  }
+  update(request: HttpRequest): Promise<HttpResponse> {
+    throw new Error("Method not implemented.");
+  }
+  delete(request: HttpRequest): Promise<HttpResponse> {
+    throw new Error("Method not implemented.");
   }
 
   public async store(request: HttpRequest): Promise<HttpResponse> {
