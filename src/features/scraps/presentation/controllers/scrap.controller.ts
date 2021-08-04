@@ -81,9 +81,9 @@ export class ScrapController implements MVCController {
         return notFound();
       }
 
-      (await this.#cache.get(`scrap:${uid}:${userUid}`))
-        ? await this.#cache.setex(`scrap:${uid}:${userUid}`, scrap, ONE_MINUTE)
-        : null;
+      const scraps = await this.#repository.getAll(userUid);
+
+      await this.#cache.setex(`scrap:all:${userUid}`, scraps, ONE_MINUTE);
 
       return ok({ scrap });
     } catch (error) {
@@ -103,6 +103,10 @@ export class ScrapController implements MVCController {
       }
 
       await this.#cache.del(`scrap:${uid}:${userUid}`);
+
+      const scraps = await this.#repository.getAll(userUid);
+
+      await this.#cache.setex(`scrap:all:${userUid}`, scraps, ONE_MINUTE);
 
       return ok({});
     } catch (error) {
