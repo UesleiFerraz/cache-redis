@@ -12,7 +12,7 @@ export const routerAdapter = (controller: Controller) => {
 
     const httpResponse: HttpResponse = await controller.handle(httpRequest);
 
-    if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 200) {
+    if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
       return response.status(httpResponse.statusCode).json(httpResponse.body);
     } else {
       return response

@@ -7,6 +7,7 @@ import {
 } from "../../../scraps/presentation";
 import { UserRepository } from "../../infra";
 import { UserController } from "../controllers";
+import { AuthUserController } from "../controllers/auth-user.controller";
 import { UserFieldsMiddleware } from "../middlewares";
 
 const makeController = () => {
@@ -25,7 +26,7 @@ export default class UserRoutes {
     routes.post(
       "/auth",
       middlewareAdapter(new UserFieldsMiddleware()),
-      routerAdapter(makeController())
+      routerAdapter(new AuthUserController(new UserRepository()))
     );
 
     routes.get("/users", routerMvcAdapter(makeController(), EMVC.SHOW));
