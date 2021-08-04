@@ -18,7 +18,7 @@ export class ScrapRepository {
     const scraps = await ScrapEntity.find({
       relations: ["user"],
       order: {
-        createdAt: "ASC",
+        createdAt: "DESC",
       },
       where: { userUid },
     });
@@ -67,13 +67,13 @@ export class ScrapRepository {
     };
   }
 
-  async delete(uid: string, userUid: string): Promise<null | void> {
+  async delete(uid: string, userUid: string): Promise<null | Scrap> {
     const scrap = await ScrapEntity.findOne(uid, { where: { userUid } });
 
     if (!scrap) {
       return null;
     }
 
-    await scrap.remove();
+    return await scrap.remove();
   }
 }

@@ -26,14 +26,14 @@ export class ScrapController implements MVCController {
       const cache = await this.#cache.get(`scrap:all:${userUid}`);
 
       if (cache) {
-        return ok(cache);
+        return ok({ scraps: cache });
       }
 
       const scraps = await this.#repository.getAll(userUid);
 
       await this.#cache.setex(`scrap:all:${userUid}`, scraps, ONE_MINUTE);
 
-      return ok(scraps);
+      return ok({ scraps });
     } catch (error) {
       console.log(error);
       return serverError();
@@ -43,7 +43,7 @@ export class ScrapController implements MVCController {
     try {
       const scrap = await this.#repository.create(request.body);
 
-      return ok(scrap);
+      return ok({ scrap });
     } catch (error) {
       console.log(error);
       return serverError();
@@ -58,13 +58,13 @@ export class ScrapController implements MVCController {
       const cache = await this.#cache.get(`scrap:${uid}:${userUid}`);
 
       if (cache) {
-        return ok(cache);
+        return ok({ scrap: cache });
       }
 
       const scrap = await this.#repository.getOne(uid, userUid);
 
       await this.#cache.setex(`scrap:${uid}:${userUid}`, scrap, ONE_MINUTE);
-      return ok(scrap);
+      return ok({ scrap });
     } catch (error) {
       console.log(error);
       return serverError();
@@ -82,10 +82,10 @@ export class ScrapController implements MVCController {
       }
 
       (await this.#cache.get(`scrap:${uid}:${userUid}`))
-        ? this.#cache.setex(`scrap:${uid}:${userUid}`, scrap, ONE_MINUTE)
+        ? await this.#cache.setex(`scrap:${uid}:${userUid}`, scrap, ONE_MINUTE)
         : null;
 
-      return ok(scrap);
+      return ok({ scrap });
     } catch (error) {
       console.log(error);
       return serverError();
@@ -102,7 +102,7 @@ export class ScrapController implements MVCController {
         return notFound();
       }
 
-      this.#cache.del(`scrap:${uid}:${userUid}`);
+      await this.#cache.del(`scrap:${uid}:${userUid}`);
 
       return ok({});
     } catch (error) {

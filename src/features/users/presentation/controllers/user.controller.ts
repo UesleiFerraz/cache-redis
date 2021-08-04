@@ -58,7 +58,7 @@ export class UserController implements MVCController {
         token = jwt.sign({ uid: user.uid }, secret, { expiresIn: "1h" });
       }
 
-      return ok(token);
+      return ok({ token });
     } catch (error) {
       console.log(error);
       return forbidden();
