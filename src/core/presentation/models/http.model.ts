@@ -11,4 +11,5 @@ export interface HttpRequest {
 export interface HttpMiddleware {
   headers: any;
   body: any;
+  userUid?: string;
 }
