@@ -14,12 +14,13 @@ export class ScrapRepository {
     return Object.assign({} as Scrap, params, scrap);
   }
 
-  async getAll(): Promise<Scrap[]> {
+  async getAll(userUid: string): Promise<Scrap[]> {
     const scraps = await ScrapEntity.find({
       relations: ["user"],
       order: {
         createdAt: "ASC",
       },
+      where: { userUid },
     });
 
     return scraps.map(scrap => ({
@@ -28,8 +29,11 @@ export class ScrapRepository {
     }));
   }
 
-  async getOne(uid: string): Promise<Scrap | null> {
-    const scrap = await ScrapEntity.findOne(uid, { relations: ["users"] });
+  async getOne(uid: string, userUid: string): Promise<Scrap | null> {
+    const scrap = await ScrapEntity.findOne(uid, {
+      relations: ["user"],
+      where: { userUid },
+    });
 
     if (!scrap) {
       return null;
@@ -46,7 +50,7 @@ export class ScrapRepository {
 
     const scrap = await ScrapEntity.findOne(uid, {
       where: { userUid },
-      relations: ["users"],
+      relations: ["user"],
     });
 
     if (!scrap) {
@@ -63,8 +67,8 @@ export class ScrapRepository {
     };
   }
 
-  async delete(uid: string): Promise<null | void> {
-    const scrap = await ScrapEntity.findOne(uid);
+  async delete(uid: string, userUid: string): Promise<null | void> {
+    const scrap = await ScrapEntity.findOne(uid, { where: { userUid } });
 
     if (!scrap) {
       return null;

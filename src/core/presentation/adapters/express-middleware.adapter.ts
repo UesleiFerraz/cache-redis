@@ -13,7 +13,7 @@ export const middlewareAdapter = (middleware: any) => {
     );
 
     if (httpResponse.statusCode === 200) {
-      Object.assign(request, httpResponse.body);
+      Object.assign(request.body, httpResponse.body);
       next();
     } else {
       response

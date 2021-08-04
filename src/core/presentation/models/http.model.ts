@@ -6,6 +6,7 @@ export interface HttpResponse {
 export interface HttpRequest {
   params: any;
   body: any;
+  userUid?: string;
 }
 
 export interface HttpMiddleware {

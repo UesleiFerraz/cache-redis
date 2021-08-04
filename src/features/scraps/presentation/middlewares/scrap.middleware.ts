@@ -8,7 +8,7 @@ import {
 import { Scrap } from "../../domain";
 
 export class ScrapMiddleware {
-  private fields = ["title", "description", "userUid"];
+  private fields = ["title", "description"];
 
   public handle(request: HttpRequest): HttpResponse {
     const body: Scrap = request.body;

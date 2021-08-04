@@ -1,5 +1,4 @@
 import {
-  forbidden,
   HttpMiddleware,
   HttpResponse,
   ok,
@@ -8,7 +7,7 @@ import {
 import jwt from "jsonwebtoken";
 
 interface IPayLoad {
-  id: string;
+  uid: string;
   iat: number;
   exp: number;
 }
@@ -26,12 +25,11 @@ export class UserAuthMiddleware {
 
     try {
       const data = jwt.verify(token, secret);
-      const { id } = data as IPayLoad;
+      const { uid } = data as IPayLoad;
 
-      request.userUid = id;
-      return ok({});
+      return ok({ userUid: uid });
     } catch {
-      return forbidden();
+      return unauthorized();
     }
   }
 }

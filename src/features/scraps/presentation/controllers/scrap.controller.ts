@@ -5,6 +5,7 @@ import {
   notFound,
   ok,
   serverError,
+  unauthorized,
 } from "../../../../core/presentation";
 import { ScrapRepository, CacheRepository } from "../../infra";
 
@@ -21,15 +22,16 @@ export class ScrapController implements MVCController {
 
   public async index(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const cache = await this.#cache.get("scrap:all");
+      const { userUid } = request.body;
+      const cache = await this.#cache.get(`scrap:all:${userUid}`);
 
       if (cache) {
         return ok(cache);
       }
 
-      const scraps = await this.#repository.getAll();
+      const scraps = await this.#repository.getAll(userUid);
 
-      await this.#cache.setex("scrap:all", scraps, ONE_MINUTE);
+      await this.#cache.setex(`scrap:all:${userUid}`, scraps, ONE_MINUTE);
 
       return ok(scraps);
     } catch (error) {
@@ -51,16 +53,17 @@ export class ScrapController implements MVCController {
   public async show(request: HttpRequest): Promise<HttpResponse> {
     try {
       const { uid } = request.params;
+      const { userUid } = request.body;
 
-      const cache = await this.#cache.get(`scrap:${uid}`);
+      const cache = await this.#cache.get(`scrap:${uid}:${userUid}`);
 
       if (cache) {
         return ok(cache);
       }
 
-      const scrap = await this.#repository.getOne(uid);
+      const scrap = await this.#repository.getOne(uid, userUid);
 
-      await this.#cache.setex(`scrap:${uid}`, scrap, ONE_MINUTE);
+      await this.#cache.setex(`scrap:${uid}:${userUid}`, scrap, ONE_MINUTE);
       return ok(scrap);
     } catch (error) {
       console.log(error);
@@ -70,6 +73,7 @@ export class ScrapController implements MVCController {
   public async update(request: HttpRequest): Promise<HttpResponse> {
     try {
       const { uid } = request.params;
+      const { userUid } = request.body;
 
       const scrap = await this.#repository.update(uid, request.body);
 
@@ -77,8 +81,8 @@ export class ScrapController implements MVCController {
         return notFound();
       }
 
-      (await this.#cache.get(`scrap:${uid}`))
-        ? this.#cache.setex(`scrap:${uid}`, scrap, ONE_MINUTE)
+      (await this.#cache.get(`scrap:${uid}:${userUid}`))
+        ? this.#cache.setex(`scrap:${uid}:${userUid}`, scrap, ONE_MINUTE)
         : null;
 
       return ok(scrap);
@@ -90,14 +94,15 @@ export class ScrapController implements MVCController {
   public async delete(request: HttpRequest): Promise<HttpResponse> {
     try {
       const { uid } = request.params;
+      const { userUid } = request.body;
 
-      const scrap = await this.#repository.delete(uid);
+      const scrap = await this.#repository.delete(uid, userUid);
 
       if (!scrap) {
         return notFound();
       }
 
-      this.#cache.del(`scrap:${uid}`);
+      this.#cache.del(`scrap:${uid}:${userUid}`);
 
       return ok({});
     } catch (error) {
