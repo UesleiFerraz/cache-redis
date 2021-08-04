@@ -13,9 +13,9 @@ module.exports = {
     entitiesDir: `${process.env.SOURCE_DB}/core/infra/data/database/entities`,
     migrationsDir: `${process.env.SOURCE_DB}/core/infra/data/database/migrations`,
   },
-  // extra: {
-  //   ssl: {
-  //     rejectUnauthorized: false,
-  //   },
-  // },
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 };
