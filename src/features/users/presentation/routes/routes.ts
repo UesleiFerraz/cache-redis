@@ -27,5 +27,7 @@ export default class UserRoutes {
       middlewareAdapter(new UserFieldsMiddleware()),
       routerAdapter(makeController())
     );
+
+    routes.get("/users", routerMvcAdapter(makeController(), EMVC.SHOW));
   }
 }

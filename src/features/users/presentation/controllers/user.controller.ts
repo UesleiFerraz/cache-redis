@@ -68,8 +68,19 @@ export class UserController implements MVCController {
   index(request: HttpRequest): Promise<HttpResponse> {
     throw new Error("Method not implemented.");
   }
-  show(request: HttpRequest): Promise<HttpResponse> {
-    throw new Error("Method not implemented.");
+  public async show(request: HttpRequest): Promise<HttpResponse> {
+    try {
+      const user = await this.#repository.getOne(request.body.username);
+
+      if (user) {
+        return conflict("Username");
+      }
+
+      return ok({});
+    } catch (error) {
+      console.log(error);
+      return serverError();
+    }
   }
   update(request: HttpRequest): Promise<HttpResponse> {
     throw new Error("Method not implemented.");
