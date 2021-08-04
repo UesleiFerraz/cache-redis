@@ -34,7 +34,7 @@ export class UserController implements MVCController {
 
   public async show(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const user = await this.#repository.getOne(request.body.username);
+      const user = await this.#repository.getOne(request.params.username);
 
       if (user) {
         return conflict("Username");

@@ -29,6 +29,9 @@ export default class UserRoutes {
       routerAdapter(new AuthUserController(new UserRepository()))
     );
 
-    routes.get("/users", routerMvcAdapter(makeController(), EMVC.SHOW));
+    routes.get(
+      "/users/:username",
+      routerMvcAdapter(makeController(), EMVC.SHOW)
+    );
   }
 }
